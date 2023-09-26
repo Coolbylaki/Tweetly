@@ -5,7 +5,6 @@ import Link from "next/link";
 
 export default function MainNavigation() {
 	const path = usePathname();
-	console.log(path);
 
 	return (
 		<div className="hidden md:flex gap-12 text-sm text-muted-foreground">
