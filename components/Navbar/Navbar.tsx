@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
 import ModeToggle from "@/components/Theme/Toggle";
-import { Button } from "@/components/ui/button";
 import MainNavigation from "./MainNavigation";
+import LoginButton from "./LoginButton";
 
 export default function Navbar() {
 	return (
@@ -16,9 +16,7 @@ export default function Navbar() {
 
 			<div className="flex items-center">
 				<ModeToggle />
-				<Button variant="ghost" className="hover:bg-inherit hover:text-primary">
-					Login
-				</Button>
+				<LoginButton />
 			</div>
 		</nav>
 	);
