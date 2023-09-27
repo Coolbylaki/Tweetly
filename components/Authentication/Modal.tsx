@@ -19,11 +19,8 @@ export default function Modal({ isVisible, onClose, children }: Props) {
 			className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
 			onClick={handleClose}
 			id="wrapper">
-			<div className="w-[300px] flex flex-col">
-				<button className="text-white text-xl place-self-end" onClick={onClose}>
-					X
-				</button>
-				<div className="bg-white p-2 text-black rounded-[var(--radius)]">{children}</div>
+			<div className="max-w-xs sm:max-w-sm flex flex-col">
+				<div className="rounded-[var(--radius)]">{children}</div>
 			</div>
 		</div>
 	);

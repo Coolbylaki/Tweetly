@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/Authentication/Modal";
 import { useState } from "react";
+import AuthForm from "@/components/Authentication/AuthForm";
 
 export default function LoginButton() {
 	const [showModal, setShowModal] = useState(false);
@@ -16,7 +17,7 @@ export default function LoginButton() {
 				Login
 			</Button>
 			<Modal isVisible={showModal} onClose={() => setShowModal(false)}>
-				<h1>Hello</h1>
+				<AuthForm />
 			</Modal>
 		</>
 	);
