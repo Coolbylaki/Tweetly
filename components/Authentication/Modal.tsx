@@ -19,7 +19,7 @@ export default function Modal({ isVisible, onClose, children }: Props) {
 			className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
 			onClick={handleClose}
 			id="wrapper">
-			<div className="max-w-xs sm:max-w-lg flex flex-col">
+			<div className="max-w-xs sm:max-w-lg flex flex-col w-full">
 				<div className="rounded-[var(--radius)]">{children}</div>
 			</div>
 		</div>
