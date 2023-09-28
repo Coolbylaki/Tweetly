@@ -15,6 +15,10 @@ type Props = {
 };
 
 export default function LoginForm({ showRegister }: Props) {
+	// TODO: Validate login form
+
+	// TODO: Send login data to backend
+
 	return (
 		<Card>
 			<CardHeader className="space-y-2">
@@ -24,15 +28,17 @@ export default function LoginForm({ showRegister }: Props) {
 					below
 				</CardDescription>
 			</CardHeader>
-			<CardContent className="grid gap-4">
-				<div className="grid gap-2">
-					<Label htmlFor="email">Email</Label>
-					<Input id="email" type="email" placeholder="johndoe@gmail.com" />
-				</div>
-				<div className="grid gap-2">
-					<Label htmlFor="password">Password</Label>
-					<Input id="password" type="password" />
-				</div>
+			<CardContent>
+				<form action="" className="grid gap-4">
+					<div className="grid gap-2">
+						<Label htmlFor="email">Email</Label>
+						<Input id="email" type="email" placeholder="johndoe@gmail.com" />
+					</div>
+					<div className="grid gap-2">
+						<Label htmlFor="password">Password</Label>
+						<Input id="password" type="password" placeholder="********" />
+					</div>
+				</form>
 			</CardContent>
 			<CardFooter className="flex gap-2">
 				<Button className="w-full">Login</Button>
