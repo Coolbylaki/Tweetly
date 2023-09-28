@@ -11,14 +11,17 @@ import { Label } from "@/components/ui/label";
 import { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import API from "@/lib/utils/endpoint";
+import Image from "next/image";
+import eye from "@/assets/svg/eye.svg";
 
 type Props = {
 	showLogin: () => void;
 };
 
 export default function RegisterForm({ showLogin }: Props) {
-	const [showSuccess, setShowSuccess] = useState(false);
 	const initialValues = { email: "", password: "", name: "" };
+	const [showSuccess, setShowSuccess] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
 	const [formValues, setFormValues] = useState(initialValues);
 	const [formErrors, setFormErrors] = useState<{
 		email?: string;
@@ -100,7 +103,7 @@ export default function RegisterForm({ showLogin }: Props) {
 	return (
 		<>
 			{showSuccess ? (
-				<Card className="px-4 py-8 text-center">
+				<Card className="px-4 py-8 sm:px-8 text-center">
 					<CardTitle className="text-2xl">Registration successful!</CardTitle>
 					<CardDescription>Press anywhere to exit</CardDescription>
 				</Card>
@@ -146,15 +149,23 @@ export default function RegisterForm({ showLogin }: Props) {
 							{formErrors.email || ""}
 						</p>
 
-						<div className="grid gap-2">
+						<div className="grid gap-2 relative">
 							<Label htmlFor="password">Password</Label>
 							<Input
 								id="password"
-								type="password"
+								type={showPassword ? "text" : "password"}
 								name="password"
 								placeholder="********"
 								onChange={handleChange}
 								defaultValue={formValues.password}
+							/>
+							<Image
+								src={eye}
+								height={20}
+								width={20}
+								alt="Show password"
+								className="absolute right-3 top-[50%] cursor-pointer"
+								onClick={() => setShowPassword((prevState) => !prevState)}
 							/>
 						</div>
 

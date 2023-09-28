@@ -9,7 +9,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChangeEvent, FormEvent } from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Image from "next/image";
+import eye from "@/assets/svg/eye.svg";
 
 type Props = {
 	showRegister: () => void;
@@ -17,6 +19,7 @@ type Props = {
 
 export default function LoginForm({ showRegister }: Props) {
 	const initialValues = { email: "", password: "" };
+	const [showPassword, setShowPassword] = useState(false);
 	const [formValues, setFormValues] = useState(initialValues);
 	const [formErrors, setFormErrors] = useState<{ email?: string; password?: string }>(
 		{}
@@ -93,15 +96,23 @@ export default function LoginForm({ showRegister }: Props) {
 					{formErrors.email || ""}
 				</p>
 
-				<div className="grid gap-2">
+				<div className="grid gap-2 relative">
 					<Label htmlFor="password">Password</Label>
 					<Input
 						id="password"
-						type="password"
+						type={showPassword ? "text" : "password"}
 						name="password"
 						placeholder="********"
 						onChange={handleChange}
 						defaultValue={formValues.password}
+					/>
+					<Image
+						src={eye}
+						height={20}
+						width={20}
+						alt="Show password"
+						className="absolute right-3 top-[50%] cursor-pointer"
+						onClick={() => setShowPassword((prevState) => !prevState)}
 					/>
 				</div>
 
