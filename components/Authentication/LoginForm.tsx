@@ -12,6 +12,7 @@ import { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import Image from "next/image";
 import eye from "@/assets/svg/eye.svg";
+import API from "@/lib/utils/endpoint";
 
 type Props = {
 	showRegister: () => void;
@@ -41,10 +42,30 @@ export default function LoginForm({ showRegister }: Props) {
 
 		// Check if there are no errors
 		if (Object.keys(errors).length === 0) {
-			const user = {
+			const userData = {
 				email: formValues.email,
 				password: formValues.password,
 			};
+
+			try {
+				const response = await API.post("user/login", userData, {
+					headers: {
+						"Content-Type": "application/json",
+					},
+				});
+
+				if (response.status === 200) {
+					console.log("Login successful!");
+					setFormValues({
+						email: "",
+						password: "",
+					});
+				} else {
+					console.error("User login failed.");
+				}
+			} catch (error) {
+				console.error("An error occurred:", error);
+			}
 		}
 	};
 
