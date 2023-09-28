@@ -44,8 +44,6 @@ export default function RegisterForm({ showLogin }: Props) {
 				password: formValues.password,
 			};
 
-			console.log(user);
-
 			// try {
 			// 	const response = await fetch("/api/user", {
 			// 		method: "POST",
@@ -98,7 +96,7 @@ export default function RegisterForm({ showLogin }: Props) {
 
 			<form action="" className="grid gap-4 p-6 pt-0" onSubmit={onSubmitHandler}>
 				<div className="grid gap-2">
-					<label htmlFor="email">Email</label>
+					<Label htmlFor="email">Email</Label>
 					<Input
 						id="email"
 						type="email"
@@ -114,7 +112,7 @@ export default function RegisterForm({ showLogin }: Props) {
 				</p>
 
 				<div className="grid gap-2">
-					<label htmlFor="password">Password</label>
+					<Label htmlFor="password">Password</Label>
 					<Input
 						id="password"
 						type="password"
