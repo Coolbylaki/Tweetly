@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
 	Card,
-	CardContent,
 	CardDescription,
 	CardFooter,
 	CardHeader,
@@ -43,24 +42,6 @@ export default function LoginForm({ showRegister }: Props) {
 				email: formValues.email,
 				password: formValues.password,
 			};
-
-			// try {
-			// 	const response = await fetch("/api/user", {
-			// 		method: "POST",
-			// 		body: JSON.stringify(user),
-			// 		headers: {
-			// 			"Content-Type": "application/json",
-			// 		},
-			// 	});
-
-			// 	if (response.ok) {
-			// 		console.log("User registered successfully!");
-			// 	} else {
-			// 		console.error("User registration failed.");
-			// 	}
-			// } catch (error) {
-			// 	console.error("An error occurred:", error);
-			// }
 		}
 	};
 
@@ -95,7 +76,7 @@ export default function LoginForm({ showRegister }: Props) {
 				</CardDescription>
 			</CardHeader>
 
-			<form action="" className="grid gap-4 p-6 pt-0" onSubmit={onSubmitHandler}>
+			<form className="grid gap-4 p-6 pt-0" onSubmit={onSubmitHandler}>
 				<div className="grid gap-2">
 					<Label htmlFor="email">Email</Label>
 					<Input

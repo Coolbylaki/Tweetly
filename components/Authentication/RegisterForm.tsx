@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
 	Card,
-	CardContent,
 	CardDescription,
 	CardFooter,
 	CardHeader,
@@ -11,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChangeEvent, FormEvent } from "react";
 import { useState, useEffect } from "react";
+import API from "@/lib/utils/endpoint";
 
 type Props = {
 	showLogin: () => void;
@@ -39,28 +39,26 @@ export default function RegisterForm({ showLogin }: Props) {
 
 		// Check if there are no errors
 		if (Object.keys(errors).length === 0) {
-			const user = {
+			const userData = {
 				email: formValues.email,
 				password: formValues.password,
 			};
 
-			// try {
-			// 	const response = await fetch("/api/user", {
-			// 		method: "POST",
-			// 		body: JSON.stringify(user),
-			// 		headers: {
-			// 			"Content-Type": "application/json",
-			// 		},
-			// 	});
+			try {
+				const response = await API.post("user", userData, {
+					headers: {
+						"Content-Type": "application/json",
+					},
+				});
 
-			// 	if (response.ok) {
-			// 		console.log("User registered successfully!");
-			// 	} else {
-			// 		console.error("User registration failed.");
-			// 	}
-			// } catch (error) {
-			// 	console.error("An error occurred:", error);
-			// }
+				if (response.status === 200) {
+					console.log("User registered successfully!");
+				} else {
+					console.error("User registration failed.");
+				}
+			} catch (error) {
+				console.error("An error occurred:", error);
+			}
 		}
 	};
 
@@ -94,7 +92,7 @@ export default function RegisterForm({ showLogin }: Props) {
 				</CardDescription>
 			</CardHeader>
 
-			<form action="" className="grid gap-4 p-6 pt-0" onSubmit={onSubmitHandler}>
+			<form className="grid gap-4 p-6 pt-0" onSubmit={onSubmitHandler}>
 				<div className="grid gap-2">
 					<Label htmlFor="email">Email</Label>
 					<Input
