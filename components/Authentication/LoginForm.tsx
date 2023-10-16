@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -10,21 +12,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import eye from "@/assets/svg/eye.svg";
-import API from "@/lib/utils/endpoint";
 
-type Props = {
-	showRegister: () => void;
-};
-
-export default function LoginForm({ showRegister }: Props) {
+export default function LoginForm() {
 	const initialValues = { email: "", password: "" };
 	const [showPassword, setShowPassword] = useState(false);
 	const [formValues, setFormValues] = useState(initialValues);
 	const [formErrors, setFormErrors] = useState<{ email?: string; password?: string }>(
 		{}
 	);
+
+	const router = useRouter();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -46,33 +46,14 @@ export default function LoginForm({ showRegister }: Props) {
 				email: formValues.email,
 				password: formValues.password,
 			};
-
-			try {
-				const response = await API.post("user/login", userData, {
-					headers: {
-						"Content-Type": "application/json",
-					},
-				});
-
-				if (response.status === 200) {
-					console.log("Login successful!");
-					setFormValues({
-						email: "",
-						password: "",
-					});
-				} else {
-					console.error("User login failed.");
-				}
-			} catch (error) {
-				console.error("An error occurred:", error);
-			}
 		}
 	};
 
 	const validate = (values: any) => {
 		const errors: Record<string, any> = {};
 		const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-		const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=-_]).{8,}$/;
+		// const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=-_]).{8,}$/;
+		const passwordRegex = /^.{5,}$/;
 
 		if (!values.email) {
 			errors.email = "Email is required!";
@@ -91,7 +72,7 @@ export default function LoginForm({ showRegister }: Props) {
 	};
 
 	return (
-		<Card>
+		<Card className="m-2 max-w-md">
 			<CardHeader className="space-y-2">
 				<CardTitle className="text-2xl">Login</CardTitle>
 				<CardDescription>
@@ -145,7 +126,10 @@ export default function LoginForm({ showRegister }: Props) {
 					<Button className="w-full" type="submit">
 						Login
 					</Button>
-					<Button variant="ghost" className="w-1/3" onClick={() => showRegister()}>
+					<Button
+						variant="ghost"
+						className="w-1/3"
+						onClick={() => router.push("/register")}>
 						Register
 					</Button>
 				</CardFooter>

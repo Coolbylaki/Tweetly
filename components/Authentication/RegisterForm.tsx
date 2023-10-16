@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -10,17 +12,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
-import API from "@/lib/utils/endpoint";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import eye from "@/assets/svg/eye.svg";
 
-type Props = {
-	showLogin: () => void;
-};
-
-export default function RegisterForm({ showLogin }: Props) {
+export default function RegisterForm() {
 	const initialValues = { email: "", password: "", name: "" };
-	const [showSuccess, setShowSuccess] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const [formValues, setFormValues] = useState(initialValues);
 	const [formErrors, setFormErrors] = useState<{
@@ -50,28 +47,6 @@ export default function RegisterForm({ showLogin }: Props) {
 				password: formValues.password,
 				name: formValues.name,
 			};
-
-			try {
-				const response = await API.post("user/register", userData, {
-					headers: {
-						"Content-Type": "application/json",
-					},
-				});
-
-				if (response.status === 200) {
-					console.log("User registered successfully!");
-					setFormValues({
-						email: "",
-						password: "",
-						name: "",
-					});
-					setShowSuccess(true);
-				} else {
-					console.error("User registration failed.");
-				}
-			} catch (error) {
-				console.error("An error occurred:", error);
-			}
 		}
 	};
 
@@ -102,88 +77,81 @@ export default function RegisterForm({ showLogin }: Props) {
 
 	return (
 		<>
-			{showSuccess ? (
-				<Card className="px-4 py-8 sm:px-8 text-center">
-					<CardTitle className="text-2xl">Registration successful!</CardTitle>
-					<CardDescription>Press anywhere to exit</CardDescription>
-				</Card>
-			) : (
-				<Card>
-					<CardHeader className="space-y-2">
-						<CardTitle className="text-2xl">Register</CardTitle>
-						<CardDescription>
-							Enter email and a password below to create your account
-						</CardDescription>
-					</CardHeader>
+			<Card className="m-2 max-w-md">
+				<CardHeader className="space-y-2">
+					<CardTitle className="text-2xl">Register</CardTitle>
+					<CardDescription>
+						Enter email and a password below to create your account
+					</CardDescription>
+				</CardHeader>
 
-					<form className="grid gap-4 p-6 pt-0" onSubmit={onSubmitHandler}>
-						<div className="grid gap-2">
-							<Label htmlFor="name">Name</Label>
-							<Input
-								id="name"
-								type="name"
-								name="name"
-								placeholder="John Doe"
-								onChange={handleChange}
-								value={formValues.name}
-							/>
-						</div>
+				<form className="grid gap-4 p-6 pt-0" onSubmit={onSubmitHandler}>
+					<div className="grid gap-2">
+						<Label htmlFor="name">Name</Label>
+						<Input
+							id="name"
+							type="name"
+							name="name"
+							placeholder="John Doe"
+							onChange={handleChange}
+							value={formValues.name}
+						/>
+					</div>
 
-						<p className="relative bottom-3 font-bold text-sm text-destructive">
-							{formErrors.name || ""}
-						</p>
+					<p className="relative bottom-3 font-bold text-sm text-destructive">
+						{formErrors.name || ""}
+					</p>
 
-						<div className="grid gap-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								type="email"
-								name="email"
-								placeholder="johndoe@gmail.com"
-								onChange={handleChange}
-								value={formValues.email}
-							/>
-						</div>
+					<div className="grid gap-2">
+						<Label htmlFor="email">Email</Label>
+						<Input
+							id="email"
+							type="email"
+							name="email"
+							placeholder="johndoe@gmail.com"
+							onChange={handleChange}
+							value={formValues.email}
+						/>
+					</div>
 
-						<p className="relative bottom-3 font-bold text-sm text-destructive">
-							{formErrors.email || ""}
-						</p>
+					<p className="relative bottom-3 font-bold text-sm text-destructive">
+						{formErrors.email || ""}
+					</p>
 
-						<div className="grid gap-2 relative">
-							<Label htmlFor="password">Password</Label>
-							<Input
-								id="password"
-								type={showPassword ? "text" : "password"}
-								name="password"
-								placeholder="********"
-								onChange={handleChange}
-								defaultValue={formValues.password}
-							/>
-							<Image
-								src={eye}
-								height={20}
-								width={20}
-								alt="Show password"
-								className="absolute right-3 top-[50%] cursor-pointer"
-								onClick={() => setShowPassword((prevState) => !prevState)}
-							/>
-						</div>
+					<div className="grid gap-2 relative">
+						<Label htmlFor="password">Password</Label>
+						<Input
+							id="password"
+							type={showPassword ? "text" : "password"}
+							name="password"
+							placeholder="********"
+							onChange={handleChange}
+							defaultValue={formValues.password}
+						/>
+						<Image
+							src={eye}
+							height={20}
+							width={20}
+							alt="Show password"
+							className="absolute right-3 top-[50%] cursor-pointer"
+							onClick={() => setShowPassword((prevState) => !prevState)}
+						/>
+					</div>
 
-						<p className="relative bottom-3 font-bold text-sm text-destructive">
-							{formErrors.password || ""}
-						</p>
+					<p className="relative bottom-3 font-bold text-sm text-destructive">
+						{formErrors.password || ""}
+					</p>
 
-						<CardFooter className="flex gap-2 p-0">
-							<Button className="w-full" type="submit">
-								Create an account
-							</Button>
-							<Button variant="ghost" className="w-1/3" onClick={() => showLogin()}>
-								Login
-							</Button>
-						</CardFooter>
-					</form>
-				</Card>
-			)}
+					<CardFooter className="flex gap-2 p-0">
+						<Button className="w-full" type="submit">
+							Create an account
+						</Button>
+						<Button variant="ghost" className="w-1/3" onClick={() => signIn()}>
+							Login
+						</Button>
+					</CardFooter>
+				</form>
+			</Card>
 		</>
 	);
 }

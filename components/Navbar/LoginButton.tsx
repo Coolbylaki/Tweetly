@@ -2,16 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import { signOut, useSession, signIn } from "next-auth/react";
-
-import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function LoginButton() {
 	const { data: session } = useSession();
+	const pathname = usePathname();
+	let isDisabled = false;
+
+	if (pathname === "/signIn") isDisabled = !isDisabled;
 
 	if (session && session.user) {
 		return (
-			<div className="flex gap-4 ml-auto">
-				<p className="text-primary-foreground">{session.user.name}</p>
+			<div className="flex items-center ml-2">
+				<p className="text-primary">{session.user.name}</p>
 				<Button
 					variant="ghost"
 					onClick={() => signOut()}
@@ -27,7 +30,8 @@ export default function LoginButton() {
 			<Button
 				variant="ghost"
 				onClick={() => signIn()}
-				className="hover:bg-inherit hover:text-primary">
+				className="hover:bg-inherit hover:text-primary"
+				disabled={isDisabled}>
 				Login
 			</Button>
 		</>

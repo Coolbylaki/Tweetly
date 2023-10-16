@@ -12,7 +12,6 @@ export const login: LoginFn = async (username, password) => {
 		},
 	});
 	if (user && (await compare(password, user.passhash))) {
-		console.log("User logged in successfully");
 		user.passhash = "";
 		return user;
 	} else throw new Error("User Not Found!");
