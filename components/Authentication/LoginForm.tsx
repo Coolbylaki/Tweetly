@@ -72,7 +72,7 @@ export default function LoginForm({ showRegister }: Props) {
 	const validate = (values: any) => {
 		const errors: Record<string, any> = {};
 		const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-		const passwordRegex = /^(?=.*\d).{8,}$/;
+		const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=-_]).{8,}$/;
 
 		if (!values.email) {
 			errors.email = "Email is required!";
@@ -84,7 +84,7 @@ export default function LoginForm({ showRegister }: Props) {
 			errors.password = "Password is required!";
 		} else if (!passwordRegex.test(values.password)) {
 			errors.password =
-				"Password must contain a number and be at least 8 characters long";
+				"Password must contain a number, uppercase letter and be at least 8 characters long";
 		}
 
 		return errors;
