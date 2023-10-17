@@ -145,7 +145,7 @@ export default function LoginForm(props: Props) {
 
 				{!!props.error && (
 					<p className="relative bottom-3 font-bold text-sm text-destructive text-right">
-						Authentication failed. Try again
+						Email or password incorrect
 					</p>
 				)}
 
