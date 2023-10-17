@@ -159,9 +159,11 @@ export default function LoginForm(props: Props) {
 					<Button className="w-full" type="submit">
 						Login
 					</Button>
+
 					<Button
 						variant="ghost"
 						className="w-1/3"
+						type="button"
 						onClick={() => router.push("/register")}>
 						Register
 					</Button>

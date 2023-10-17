@@ -157,7 +157,11 @@ export default function RegisterForm() {
 						<Button className="w-full" type="submit">
 							Create an account
 						</Button>
-						<Button variant="ghost" className="w-1/3" onClick={() => signIn()}>
+						<Button
+							variant="ghost"
+							className="w-1/3"
+							type="button"
+							onClick={() => signIn()}>
 							Login
 						</Button>
 					</CardFooter>
