@@ -13,8 +13,10 @@ import { Label } from "@/components/ui/label";
 import { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import eye from "@/assets/svg/eye.svg";
+import axios from "axios";
 
 export default function RegisterForm() {
 	const initialValues = { email: "", password: "", name: "" };
@@ -25,6 +27,8 @@ export default function RegisterForm() {
 		password?: string;
 		name?: string;
 	}>({});
+
+	const router = useRouter();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -47,6 +51,13 @@ export default function RegisterForm() {
 				password: formValues.password,
 				name: formValues.name,
 			};
+
+			try {
+				const response = await axios.post("api/register", userData);
+				if (response.data.user) router.push("/signIn?isRegistered=true");
+			} catch (error) {
+				console.error(error);
+			}
 		}
 	};
 

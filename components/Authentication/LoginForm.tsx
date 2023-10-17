@@ -14,6 +14,7 @@ import { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import eye from "@/assets/svg/eye.svg";
 import Link from "next/link";
@@ -32,6 +33,7 @@ export default function LoginForm(props: Props) {
 	);
 
 	const router = useRouter();
+	const isRegistered = useSearchParams().get("isRegistered");
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -66,8 +68,7 @@ export default function LoginForm(props: Props) {
 	const validate = (values: any) => {
 		const errors: Record<string, any> = {};
 		const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-		// const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=-_]).{8,}$/;
-		const passwordRegex = /^.{5,}$/;
+		const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=-_]).{8,}$/;
 
 		if (!values.email) {
 			errors.email = "Email is required!";
@@ -145,6 +146,12 @@ export default function LoginForm(props: Props) {
 				{!!props.error && (
 					<p className="relative bottom-3 font-bold text-sm text-destructive text-right">
 						Authentication failed. Try again
+					</p>
+				)}
+
+				{isRegistered === "true" && (
+					<p className="relative bottom-3 font-bold text-sm text-primary text-right">
+						Registration successful
 					</p>
 				)}
 
