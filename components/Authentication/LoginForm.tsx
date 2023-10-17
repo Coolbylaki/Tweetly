@@ -68,7 +68,7 @@ export default function LoginForm(props: Props) {
 	const validate = (values: any) => {
 		const errors: Record<string, any> = {};
 		const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-		const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=-_]).{8,}$/;
+		const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=-_!]).{8,}$/;
 
 		if (!values.email) {
 			errors.email = "Email is required!";
