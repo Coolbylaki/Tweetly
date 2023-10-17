@@ -13,10 +13,17 @@ import { Label } from "@/components/ui/label";
 import { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import eye from "@/assets/svg/eye.svg";
+import Link from "next/link";
 
-export default function LoginForm() {
+type Props = {
+	error?: string;
+	callbackUrl?: string;
+};
+
+export default function LoginForm(props: Props) {
 	const initialValues = { email: "", password: "" };
 	const [showPassword, setShowPassword] = useState(false);
 	const [formValues, setFormValues] = useState(initialValues);
@@ -46,6 +53,13 @@ export default function LoginForm() {
 				email: formValues.email,
 				password: formValues.password,
 			};
+
+			await signIn("credentials", {
+				username: userData.email,
+				password: userData.password,
+				redirect: true,
+				callbackUrl: props.callbackUrl ?? "http://localhost:3000",
+			});
 		}
 	};
 
@@ -72,7 +86,13 @@ export default function LoginForm() {
 	};
 
 	return (
-		<Card className="m-2 max-w-md">
+		<Card className="m-2 max-w-md relative">
+			<Link
+				href={props.callbackUrl ?? "/"}
+				className="absolute right-5 top-3 text-xl text-foreground">
+				X
+			</Link>
+
 			<CardHeader className="space-y-2">
 				<CardTitle className="text-2xl">Login</CardTitle>
 				<CardDescription>
@@ -121,6 +141,12 @@ export default function LoginForm() {
 				<p className="relative bottom-3 font-bold text-sm text-destructive">
 					{formErrors.password || ""}
 				</p>
+
+				{!!props.error && (
+					<p className="relative bottom-3 font-bold text-sm text-destructive text-right">
+						Authentication failed. Try again
+					</p>
+				)}
 
 				<CardFooter className="flex gap-2 p-0">
 					<Button className="w-full" type="submit">
