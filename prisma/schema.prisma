@@ -15,7 +15,7 @@ model User {
   email          String   @unique @db.VarChar(40)
   bio            String   @default("") @db.VarChar(240)
   created_at     DateTime @default(now())
-  name           String   @db.VarChar(40)
+  name           String   @db.VarChar(25)
   passhash       String   @db.VarChar(80)
   profile_banner String   @default("") @db.VarChar(50)
   profile_pic    String   @default("") @db.VarChar(50)
