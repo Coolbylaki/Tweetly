@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/utils/prisma";
 import bcrypt from "bcryptjs";
+import { getServerSession } from "next-auth";
 
 export async function GET(req: Request) {
 	const url = new URL(req.url);
@@ -29,15 +30,16 @@ export async function GET(req: Request) {
 }
 
 export async function PUT(req: Request) {
+	const session = await getServerSession();
+
+	const email = session?.user?.email;
+
 	try {
 		// Parse the JSON body of the PUT request
 		const body = await req.json();
 
-		// Check if the email is provided in the request body
-		const email = body.email; // Assuming it's in the request body
-
 		if (!email) {
-			throw new Error("Email parameter is required for updating a user.");
+			return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 		}
 
 		// Retrieve the user with the given email
