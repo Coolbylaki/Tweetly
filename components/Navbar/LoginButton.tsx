@@ -12,7 +12,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faUser,
@@ -51,10 +51,12 @@ export default function LoginButton() {
 							<FontAwesomeIcon icon={faUser} className="text-foreground" />
 							My Profile
 						</DropdownMenuItem>
-						<DropdownMenuItem className="gap-2">
-							<FontAwesomeIcon icon={faGear} className="text-foreground" />
-							Settings
-						</DropdownMenuItem>
+						<Link href="/settings">
+							<DropdownMenuItem className="gap-2">
+								<FontAwesomeIcon icon={faGear} className="text-foreground" />
+								Settings
+							</DropdownMenuItem>
+						</Link>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem className="gap-2" onClick={() => signOut()}>
 							<FontAwesomeIcon
