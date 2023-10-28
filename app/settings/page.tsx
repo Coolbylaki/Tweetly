@@ -1,11 +1,10 @@
 import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/utils/prisma";
 
-import Image from "next/image";
-
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import NotAuthenticated from "@/components/Authentication/NotAuthenticated";
+import ImageUpload from "@/components/SettingsPanel/ImageUpload";
 
 export default async function Settings() {
 	const session = await getServerSession();
@@ -14,6 +13,8 @@ export default async function Settings() {
 		const user = await prisma.user.findUnique({
 			where: { email: session?.user?.email },
 		});
+
+		console.log(user?.profile_pic);
 
 		return (
 			<main className="flex flex-col items-center mt-8 mx-6 gap-2">
@@ -34,20 +35,8 @@ export default async function Settings() {
 					</Button>
 				</div>
 
-				<div className="flex items-center justify-between w-full">
-					<p className="text-muted-foreground">PHOTO</p>
+				<ImageUpload profilePicture={user?.profile_pic} email={user?.email} />
 
-					<Image
-						width={72}
-						height={72}
-						alt="Profile picture"
-						src={
-							user?.profile_pic ||
-							"https://play-lh.googleusercontent.com/0SAFn-mRhhDjQNYU46ZwA7tz0xmRiQG4ZuZmuwU8lYmqj6zEpnqsee_6QDuhQ4ZofwXj=w240-h480-rw"
-						}
-						className="rounded-lg"
-					/>
-				</div>
 				<Separator className="bg-gray-600 my-2" />
 
 				<div className="flex items-center justify-between w-full">
@@ -56,9 +45,10 @@ export default async function Settings() {
 					</label>
 					<input
 						type="text"
-						defaultValue={user?.name}
+						placeholder={user?.name}
 						className="text-right bg-inherit py-2"
 						id="name"
+						disabled
 					/>
 				</div>
 				<Separator className="bg-gray-600 my-2" />
@@ -69,9 +59,10 @@ export default async function Settings() {
 					</label>
 					<input
 						type="text"
-						defaultValue={user?.bio}
+						placeholder={user?.bio}
 						className="text-right bg-inherit py-2"
 						id="bio"
+						disabled
 					/>
 				</div>
 				<Separator className="bg-gray-600 my-2" />
@@ -81,10 +72,11 @@ export default async function Settings() {
 						EMAIL
 					</label>
 					<input
-						type="text"
-						defaultValue={user?.email}
+						type="email"
+						placeholder={user?.email}
 						className="text-right bg-inherit py-2"
 						id="email"
+						disabled
 					/>
 				</div>
 				<Separator className="bg-gray-600 my-2" />
@@ -94,13 +86,16 @@ export default async function Settings() {
 						PASSWORD
 					</label>
 					<input
-						type="text"
-						defaultValue="*********"
+						type="password"
+						placeholder="*********"
 						className="text-right bg-inherit py-2"
 						id="password"
+						disabled
 					/>
 				</div>
 				<Separator className="bg-gray-600 my-2" />
+
+				<Button className="w-full mt-2 mb-8">Submit changes</Button>
 			</main>
 		);
 	}
