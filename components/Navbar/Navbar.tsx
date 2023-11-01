@@ -8,23 +8,24 @@ import Logo from "./Logo";
 
 export default async function Navbar() {
 	const session = await getServerSession();
+	let user;
 
 	if (session?.user?.email) {
-		const user = await prisma.user.findUnique({
+		user = await prisma.user.findUnique({
 			where: { email: session?.user?.email },
 		});
-
-		return (
-			<nav className="flex justify-between shadow-md bg-background p-4 md:px-12 xl:px-16 items-center">
-				<Logo />
-
-				<MainNavigation />
-
-				<div className="flex items-center">
-					<ModeToggle />
-					<LoginButton image={user?.profile_pic} />
-				</div>
-			</nav>
-		);
 	}
+
+	return (
+		<nav className="flex justify-between shadow-md bg-background p-4 md:px-12 xl:px-16 items-center">
+			<Logo />
+
+			<MainNavigation />
+
+			<div className="flex items-center">
+				<ModeToggle />
+				<LoginButton image={user?.profile_pic} />
+			</div>
+		</nav>
+	);
 }

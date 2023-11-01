@@ -15,7 +15,7 @@ export default async function Settings() {
 		});
 
 		return (
-			<main className="flex flex-col items-center mt-8 mx-6 gap-2">
+			<main className="flex flex-col items-center mt-8 mx-6">
 				<h1 className="text-3xl font-bold">Personal info</h1>
 				<h2 className="text-sm opacity-80">Basic info, like your name and photo</h2>
 
@@ -44,7 +44,7 @@ export default async function Settings() {
 					<input
 						type="text"
 						placeholder={user?.name}
-						className="text-right bg-inherit py-2"
+						className="text-right bg-inherit py-2 max-w-[150px]"
 						id="name"
 						disabled
 					/>
@@ -58,7 +58,7 @@ export default async function Settings() {
 					<input
 						type="text"
 						placeholder={user?.bio}
-						className="text-right bg-inherit py-2"
+						className="text-right bg-inherit py-2 max-w-[150px]"
 						id="bio"
 						disabled
 					/>
@@ -72,7 +72,7 @@ export default async function Settings() {
 					<input
 						type="email"
 						placeholder={user?.email}
-						className="text-right bg-inherit py-2"
+						className="text-right bg-inherit py-2 max-w-[150px]"
 						id="email"
 						disabled
 					/>
@@ -81,12 +81,12 @@ export default async function Settings() {
 
 				<div className="flex items-center justify-between w-full">
 					<label className="text-muted-foreground" htmlFor="password">
-						PASS
+						PASSWORD
 					</label>
 					<input
 						type="password"
-						placeholder="****"
-						className="text-right bg-inherit py-2"
+						placeholder="********"
+						className="text-right bg-inherit py-2 max-w-[150px]"
 						id="password"
 						disabled
 					/>
