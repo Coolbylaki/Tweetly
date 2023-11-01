@@ -1,19 +1,30 @@
+import { getServerSession } from "next-auth";
+import { prisma } from "@/lib/utils/prisma";
+
 import ModeToggle from "@/components/Theme/Toggle";
 import MainNavigation from "./MainNavigation";
 import LoginButton from "./LoginButton";
 import Logo from "./Logo";
 
-export default function Navbar() {
-	return (
-		<nav className="flex justify-between shadow-md bg-background p-4 md:px-12 xl:px-16 items-center">
-			<Logo />
+export default async function Navbar() {
+	const session = await getServerSession();
 
-			<MainNavigation />
+	if (session?.user?.email) {
+		const user = await prisma.user.findUnique({
+			where: { email: session?.user?.email },
+		});
 
-			<div className="flex items-center">
-				<ModeToggle />
-				<LoginButton />
-			</div>
-		</nav>
-	);
+		return (
+			<nav className="flex justify-between shadow-md bg-background p-4 md:px-12 xl:px-16 items-center">
+				<Logo />
+
+				<MainNavigation />
+
+				<div className="flex items-center">
+					<ModeToggle />
+					<LoginButton image={user?.profile_pic} />
+				</div>
+			</nav>
+		);
+	}
 }

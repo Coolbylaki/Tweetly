@@ -20,7 +20,11 @@ import {
 	faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function LoginButton() {
+type Props = {
+	image?: string;
+};
+
+export default function LoginButton(props: Props) {
 	const { data: session } = useSession();
 	const pathname = usePathname();
 	let isDisabled = false;
@@ -34,7 +38,7 @@ export default function LoginButton() {
 					<DropdownMenuTrigger className="focus:outline-none">
 						<div className="flex justify-center items-center cursor-pointer">
 							<Avatar>
-								<AvatarImage src={session.user.image || ""} />
+								<AvatarImage src={props.image || ""} />
 								<AvatarFallback>
 									{session.user.name?.slice(0, 2).toUpperCase()}
 								</AvatarFallback>

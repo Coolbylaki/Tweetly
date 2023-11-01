@@ -14,8 +14,6 @@ export default async function Settings() {
 			where: { email: session?.user?.email },
 		});
 
-		console.log(user?.profile_pic);
-
 		return (
 			<main className="flex flex-col items-center mt-8 mx-6 gap-2">
 				<h1 className="text-3xl font-bold">Personal info</h1>
@@ -83,11 +81,11 @@ export default async function Settings() {
 
 				<div className="flex items-center justify-between w-full">
 					<label className="text-muted-foreground" htmlFor="password">
-						PASSWORD
+						PASS
 					</label>
 					<input
 						type="password"
-						placeholder="*********"
+						placeholder="****"
 						className="text-right bg-inherit py-2"
 						id="password"
 						disabled
